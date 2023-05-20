@@ -2,18 +2,18 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Chrome Dino Runner"
-SCREEN_HEIGHT = 600
-SCREEN_WIDTH = 1100
-FPS = 30
-IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+TITLE = "Chrome Dino Runner" #String do título 
+SCREEN_HEIGHT = 600          #Altura da tela do jogo, int
+SCREEN_WIDTH = 1100          #Largura da tela do jogo, int
+FPS = 30                     #Numero de quadros por segundo
+IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets") #Armazena o caminho para o diretório de imagens do jogo (os.path.join)
 
 # Assets Constants
-ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
+ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png")) #Imagem ícone da janela do jogo (Dinossauro)
 
-RUNNING = [
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
+RUNNING = [ #Lista que contém duas imagens do Dinossauro em execução. As imagens estão no diretório Dino
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")), #Carrega usando a função pygame.image.load
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")), #caminho da imagem na função os.path.join
 ]
 
 RUNNING_SHIELD = [
@@ -69,4 +69,4 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
-DEFAULT_TYPE = "default"
+DEFAULT_TYPE = "default" #Encerramento
