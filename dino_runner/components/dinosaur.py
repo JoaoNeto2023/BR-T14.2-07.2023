@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import DUCKING, HAMMER, RUNNING, JUMPING, DEFAULT_TYPE, DUCKING_SHIELD,  JUMPING_SHIELD, RUNNING_SHIELD, RUNNING_HAMMER, JUMPING_HAMMER, DUCKING_HAMMER
+from dino_runner.utils.constants import DUCKING, HAMMER, RUNNING, JUMPING, DEFAULT_TYPE, DUCKING_SHIELD,  JUMPING_SHIELD, RUNNING_SHIELD, RUNNING_HAMMER, JUMPING_HAMMER, DUCKING_HAMMER, SCREEN_WIDTH, SCREEN_HEIGHT
 
 Y_POS = 310
 Y_POS_DUCK = 340
@@ -27,13 +27,15 @@ class Dinosaur:
         if user_input[pygame.K_DOWN]:
             self.dino_duck = True
             self.dino_run = False
-        elif not self.dino_jump:
+        elif not self.dino_jump:      #Se a seta para cima não estiver pressionada, o dino_run é True (Dino está correndo)
             self.dino_run = True
-        if user_input[pygame.K_RIGHT]:
-            self.dino_rect.x += 10
-        if user_input[pygame.K_LEFT]:
-            self.dino_rect.x -= 10
-        
+        if user_input[pygame.K_RIGHT]: #Movimento para direita
+            if self.dino_rect.right < SCREEN_WIDTH: #limita o movimento do Dino para não sair da tela (direito)
+             self.dino_rect.x += 10     #incrementa 10 unidades ->
+        if user_input[pygame.K_LEFT]:  #movimento para esquerda
+            if self.dino_rect.left > 0: #limita o movimento do Dino para não sair da tela (esquerdo)
+             self.dino_rect.x -= 10     #decrementa 10 unidades <-
+          
             
 
         if self.dino_run:
@@ -71,5 +73,5 @@ class Dinosaur:
             self.jump_vel = JUMP_VEL
 
     def draw(self, screen):
-        screen.blit(self.image,(self.dino_rect.x, self.dino_rect.y))
+       screen.blit(self.image,(self.dino_rect.x, self.dino_rect.y))
     

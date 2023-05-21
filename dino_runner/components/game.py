@@ -13,11 +13,12 @@ class Game:
         self.clock = pygame.time.Clock() #Cria um objeto (Clock) para controlar a taxa de quadros 
         self.playing = False #Determina se o jogo está sendo executado ou não
         self.game_speed = 20 #Define a velocidade do jogo
+        self.cloud_speed = 1 #Velocidade do deslocamento das nuvens
         self.x_pos_bg = 0    #Controla a posição do plano de fundo
         self.y_pos_bg = 380  #Controla a posição do plano de fundo
         self.cloud_image = CLOUD
         self.clouds = []
-        self.num_clouds = 10
+        self.num_clouds = 5
         self.player = Dinosaur()
 
     def run(self): #Executa o jogo
@@ -52,23 +53,27 @@ class Game:
         pygame.display.flip() #atualiza toda a janela de exibição com os desenhos
 
     def draw_background(self):
-        image_width = BG.get_width() # obtém a largura da imagem de fundo BG.
-        self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg)) # desenha a imagem de fundo BG nas coordenadas fornecidas
-        self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg)) # desenha a imagem de fundo BG novamente na tela, criando uma imagem contínua
+        image_width = BG.get_width() #Obtém a largura da imagem de fundo BG e armazena em image_width.
+        self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg)) #Desenha a imagem de fundo BG nas coordenadas 
+        self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg)) #Desenha a imagem de fundo BG novamente na tela, logo após a primeira imagem, criando uma imagem contínua de fundo
 
-        for cloud in self.clouds:
-          cloud_x, cloud_y = cloud
-          cloud_x += self.x_pos_bg
-          if cloud_x > SCREEN_WIDTH:
-            # Reposiciona a nuvem no início da tela com uma nova posição vertical
-            cloud_x = random.randint(-image_width, -self.cloud_image.get_width()) #random.randint gera um número inteiro aleatório. -image garante que a nuvem se inicie antes da tela. -self.cloud também é gerada fora da tela
-            cloud_y = random.randint(200, 350)
-          self.screen.blit(self.cloud_image, (cloud_x, cloud_y))
+        updated_clouds = [] #Cria uma lista vazia para armazenar as novas posições atualizadas das nuvens.
 
-        self.x_pos_bg -= self.game_speed # atualiza o plano de fundo deslocando-o para a esquerda com base na velocidade do jogo self.game_speed
+        for cloud in self.clouds: #itera sobre cada nuvem na lista self.clouds
+            cloud_x, cloud_y = cloud #Desempacota as coordenadas cloud em cloud_x e cloud_y.
+            cloud_x -= self.cloud_speed #Subtrai a velocidade das nuvens 
+            if cloud_x < -self.cloud_image.get_width(): #Verifica se a nuvem está completamente fora da tela
+                cloud_x = SCREEN_WIDTH #Reposiciona a nuvem no início da tela com uma nova posição vertical aleatória
+                cloud_y = random.randint(0, SCREEN_HEIGHT / 2) #Reposiciona a nuvem no início da tela com uma nova posição vertical aleatória
+            updated_clouds.append((cloud_x, cloud_y)) #Adiciona as novas coordenadas da nuvem atualizada à lista updated_clouds.
+            self.screen.blit(self.cloud_image, (cloud_x, cloud_y)) #Desenha a nuvem na nova posição (cloud_x, cloud_y) na tela.
 
-        if self.x_pos_bg <= -image_width:
-          self.x_pos_bg = 0 # redefine a posição do plano de fundo para 0, reiniciando o loop de deslocamento
+        self.clouds = updated_clouds #Atualiza a lista self.clouds com as novas posições atualizadas das nuvens.
+
+        self.x_pos_bg -= self.game_speed #Atualiza a posição horizontal do plano de fundo, subtraindo a velocidade do jogo
+
+        if self.x_pos_bg <= -image_width: #Verifica se o plano de fundo está completamente fora da tela
+            self.x_pos_bg = 0
 
 
         
