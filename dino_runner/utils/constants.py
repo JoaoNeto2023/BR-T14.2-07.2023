@@ -2,50 +2,47 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Chrome Dino Runner" #String do título 
-SCREEN_HEIGHT = 600          #Altura da tela do jogo, int
-SCREEN_WIDTH = 1100          #Largura da tela do jogo, int
-FPS = 30                     #Numero de quadros por segundo
-IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets") #Armazena o caminho para o diretório de imagens do jogo (os.path.join)
+TITLE = "Chrome Dino Runner"
+SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1100
+FPS = 30
+IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
-ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png")) #Imagem ícone da janela do jogo (Dinossauro)
+ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
 
-RUNNING = [ #Lista que contém duas imagens do Dinossauro em execução. As imagens estão no diretório Dino
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")), #Carrega usando a função pygame.image.load
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")), #caminho da imagem na função os.path.join
-    
-    
+RUNNING = [
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
 ]
 
 RUNNING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1Shield.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2Shield.png")),
 ]
-
+        #Digitação estava errada, por isso estava piscando faltava o Hammer no final
 RUNNING_HAMMER = [
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1Hammer.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2Hammer1.png")),
 ]
 
-JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJump.png")) 
+JUMPING = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJump.png"))
 JUMPING_SHIELD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpShield.png"))
 JUMPING_HAMMER = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoJumpHammer.png"))
 
 DUCKING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
-    
 ]
 
 DUCKING_SHIELD = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Shield.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2Shield.png")),
 ]
-
+            #Digitação estava errada, por isso estava piscando faltava o Hammer no final
 DUCKING_HAMMER = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
-    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck2Hammer.png")),
 ]
 
 SMALL_CACTUS = [
@@ -53,6 +50,7 @@ SMALL_CACTUS = [
     pygame.image.load(os.path.join(IMG_DIR, "Cactus/SmallCactus2.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Cactus/SmallCactus3.png")),
 ]
+
 LARGE_CACTUS = [
     pygame.image.load(os.path.join(IMG_DIR, "Cactus/LargeCactus1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Cactus/LargeCactus2.png")),
@@ -72,4 +70,12 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
-DEFAULT_TYPE = "default" #Encerramento
+RESETE = pygame.image.load(os.path.join(IMG_DIR, "Other/Reset.png"))
+
+GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, "Other/GameOver.png"))
+
+DINO_DEAD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDead.png"))
+
+DEFAULT_TYPE = "default"
+SHIELD_TYPE = "shield"
+HAMMER_TYPE = "hammer"

@@ -17,11 +17,13 @@ class Dinosaur:
         self.dino_jump = False
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
+        self.has_power_up = False
+        
         
 
     def update(self, user_input):
 
-        if user_input[pygame.K_UP]:
+        if user_input[pygame.K_UP] and not self.dino_jump and self.dino_rect.y == Y_POS: #Bloqueia que o Dino fique flutuando
             self.dino_run = False
             self.dino_jump = True
         if user_input[pygame.K_DOWN]:
@@ -74,4 +76,3 @@ class Dinosaur:
 
     def draw(self, screen):
        screen.blit(self.image,(self.dino_rect.x, self.dino_rect.y))
-    
