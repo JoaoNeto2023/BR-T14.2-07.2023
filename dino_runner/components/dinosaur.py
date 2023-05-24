@@ -1,4 +1,5 @@
 import pygame
+import pygame.mixer
 
 from dino_runner.utils.constants import DUCKING, HAMMER, RUNNING, JUMPING, DEFAULT_TYPE, DUCKING_SHIELD,  JUMPING_SHIELD, RUNNING_SHIELD, RUNNING_HAMMER, JUMPING_HAMMER, DUCKING_HAMMER, SCREEN_WIDTH, SCREEN_HEIGHT
 
@@ -18,6 +19,7 @@ class Dinosaur:
         self.dino_duck = False
         self.jump_vel = JUMP_VEL
         self.has_power_up = False
+        
         
         
 
