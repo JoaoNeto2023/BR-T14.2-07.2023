@@ -215,28 +215,30 @@ class Game:
             self.screen.blit(self.cloud_image, (cloud_x, cloud_y)) #Desenha a nuvem
         self.clouds = updated_clouds
 
-    #Método  para gerar lista de coordenadas para as nuvens
-    #def generate_clouds(self):
-        #self.clouds = []
-        #for i in range(self.num_clouds):
-            #cloud_x = random.randint(0, SCREEN_WIDTH)
-            #cloud_y = random.randint(0, SCREEN_HEIGHT / 2)
-            #self.clouds.append((cloud_x, cloud_y))
+    #Método para gerar lista de coordenadas para as nuvens
+    def generate_clouds(self):
+        self.clouds = []
+        for i in range(self.num_clouds):
+            cloud_x = random.randint(0, SCREEN_WIDTH)
+            cloud_y = random.randint(0, SCREEN_HEIGHT / 2) #metade superior da tela
+            self.clouds.append((cloud_x, cloud_y))
 
+    #Método para desenhar as nuvens
     def draw_clouds(self):
         for cloud in self.clouds:
             cloud_x, cloud_y = cloud
             self.screen.blit(self.cloud_image, (cloud_x, cloud_y))
 
+    #Método para resetar o jogo
     def reset_game(self):
         self.obstacle_manager.reset_obstacles() #redefine os obstaculos do jogo
         self.power_up_manager.reset_power_ups()
         self.player = Dinosaur() #cria um novo objeto
         self.score = 0 #o score vai para 0
-        self.game_speed = 20 #a velocidade se mantém 20
+        self.game_speed = 20 
         self.clouds.clear() #remove as nuvens para não acumular
         self.generate_clouds() #regenera com novas nuvens
-
+    #Método para continuar o jogo 
     def continue_game(self):
         self.game_speed = 20
         self.generate_clouds() #regenera as nuvens

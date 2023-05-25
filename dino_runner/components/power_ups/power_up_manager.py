@@ -1,13 +1,17 @@
 import random
 import pygame
+import pygame.mixer
 
-from dino_runner.utils.constants import SHIELD_TYPE, HAMMER_TYPE
+from dino_runner.utils.constants import SHIELD_TYPE, HAMMER_TYPE, SOUND_POWER_UP
 from dino_runner.components.power_ups.shield import Shield
 from dino_runner.components.power_ups.hammer import Hammer
 
 class PowerUpManager:
     def __init__(self):
         self.power_ups = []
+        pygame.mixer.init()
+        som_power_up_path = SOUND_POWER_UP
+        self.som_power_up = pygame.mixer.Sound(som_power_up_path)
         
     def update(self, game):
         player = game.player
@@ -23,8 +27,14 @@ class PowerUpManager:
                 # verificando o tipo de power_up
                 if isinstance(power_up, Shield):
                     player.type = SHIELD_TYPE
+                    volume = 0.5  # Defina o volume desejado entre 0.0 e 1.0
+                    self.som_power_up .set_volume(volume)
+                    self.som_power_up .play()
                 elif isinstance(power_up, Hammer):
                     player.type = HAMMER_TYPE
+                    volume = 0.5  
+                    self.som_power_up .set_volume(volume)
+                    self.som_power_up .play()
                     
                 player.power_up_time_up = power_up.start_time + (power_up.duration * 1000)
                 
