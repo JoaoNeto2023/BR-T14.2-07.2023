@@ -37,7 +37,8 @@ class Dinosaur(Sprite):
         self.shield = False
         self.show_text = False
         self.shield_time_up = 0
-        
+
+    #Atualiza o estado do Dino   
     def update(self, user_input):
         if self.dino_run:
             self.run()
@@ -64,11 +65,12 @@ class Dinosaur(Sprite):
         elif user_input[pygame.K_LEFT]:
             self.move_left()
             
-        if self.step_index >= 9:
+        if self.step_index >= 9: #passos do dino
             self.step_index = 0
-    
+
+    #Atualiza a imagem do Dino
     def run(self):
-        self.image = RUN_IMG[self.type][self.step_index // 5]
+        self.image = RUN_IMG[self.type][self.step_index // 5] #animação da imagem
         self.dino_rect.y = self.Y_POS
         self.step_index += 1
         
@@ -90,12 +92,14 @@ class Dinosaur(Sprite):
         self.image = DUCK_IMG[self.type][self.step_index // 5]
         self.dino_rect.y = 350
         self.step_index += 1
-        
+
+    #Move o dino para direita e esquerda   
     def move_right(self):
         self.dino_rect.x += self.MOVE_SPEED
         
     def move_left(self):
         self.dino_rect.x -= self.MOVE_SPEED
-            
+
+    #Desenha o dino na tela        
     def draw(self, screen: pygame.Surface):
         screen.blit(self.image, (self.dino_rect.x, self.dino_rect.y))
