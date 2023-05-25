@@ -2,15 +2,19 @@ import random
 import pygame
 
 from dino_runner.components.obstacles.cactus import Cactus
+import pygame.mixer
 from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.components.obstacles.Bird import Bird
-from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, GAME_OVER, DINO_DEAD
+from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, GAME_OVER, DINO_DEAD, SOUND_DEAD
 
 
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []  # lista usada para armazenar os obstáculos
         self.spawn_bird = False  # Controle para gerar pássaros
+        pygame.mixer.init()
+        som_death_path = SOUND_DEAD
+        self.som_dead = pygame.mixer.Sound(som_death_path)
 
     def update(self, game):
         if len(self.obstacles) == 0:
@@ -46,6 +50,9 @@ class ObstacleManager:
         game_over_image = GAME_OVER
         game_over_rect = game_over_image.get_rect(center=screen_rect.center)
         screen.blit(game_over_image, game_over_rect)
+        volume = 0.5  # Defina o volume desejado entre 0.0 e 1.0
+        self.som_dead.set_volume(volume)
+        self.som_dead.play()
         player.is_dead = True  # Define o estado do dinossauro como morto
         player.dino_image = DINO_DEAD  # Altera a imagem do dinossauro para a imagem do dinossauro morto
         player.dino_rect = player.dino_image.get_rect()  # Atualiza o retângulo de colisão do dinossauro com a nova imagem

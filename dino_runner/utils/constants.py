@@ -76,7 +76,9 @@ HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
     
-    
+SOUND_JUMP = os.path.join(IMG_DIR, "Sounds/sons_jump_sound.wav") 
+SOUND_DEAD = os.path.join(IMG_DIR, "Sounds/sons_death_sound.wav")
+
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 RESETE = pygame.image.load(os.path.join(IMG_DIR, "Other/Reset.png"))
