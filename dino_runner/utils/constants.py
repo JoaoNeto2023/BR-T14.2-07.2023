@@ -1,5 +1,7 @@
 import pygame
 import os
+import pygame.mixer
+pygame.mixer.init()
 
 
 # Global Constants
@@ -65,15 +67,16 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
+
+
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
+
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
     
     
-
-
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 RESETE = pygame.image.load(os.path.join(IMG_DIR, "Other/Reset.png"))
@@ -81,6 +84,8 @@ RESETE = pygame.image.load(os.path.join(IMG_DIR, "Other/Reset.png"))
 GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, "Other/GameOver.png"))
 
 DINO_DEAD = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDead.png"))
+
+
 
 
 DEFAULT_TYPE = "default"

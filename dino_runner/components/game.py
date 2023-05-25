@@ -1,8 +1,10 @@
 import pygame
 import random
 from dino_runner.components.dinosaur import Dinosaur
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE 
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD, FONT_STYLE, DEFAULT_TYPE 
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
+
 
 
 class Game:
@@ -17,6 +19,7 @@ class Game:
         self.executing = False
         self.continuing = False
         self.resetting = False
+        self.running = True
 
         self.game_speed = 20
         self.cloud_speed = 1
@@ -29,6 +32,7 @@ class Game:
 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.power_up_manager = PowerUpManager()
 
         self.death_count = 0
         self.score = 0
@@ -38,7 +42,7 @@ class Game:
 
     def execute(self): #executa o jogo
         self.executing = True
-        while self.executing:
+        while self.executing and self.running:
             if not self.playing:
                 self.display_menu() #chama o menu da tela
                 if self.continuing: #continua a partir de um jogo anterior
@@ -48,7 +52,12 @@ class Game:
                     self.resetting = False 
                     self.reset_game() #chamada para reiniciar o jogo
                     self.run() #executa o jogo novamente
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: #verifica se o jogo foi fechado
+                    self.executing = False
+                    self.playing = False
         pygame.quit() #encerrar o jogo
+        
 
     def run(self):
         self.generate_clouds()
@@ -72,11 +81,15 @@ class Game:
                 elif event.key == pygame.K_r: #se for r, reinicia
                     self.resetting = True
                     self.playing = False
+                elif event.key == pygame.K_x:  # Adicione esse trecho para fechar a janela
+                    self.playing = False
+                    self.running = False
 
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input) #armazena as teclas pressionadas
         self.obstacle_manager.update(self) #atualiza o comportamento do obstaculo
+        self.power_up_manager.update(self)
         self.update_speed() #atualiza a velocidade do jogo
         self.update_score() #atualiza os pontos do jogo
 
@@ -95,21 +108,45 @@ class Game:
         elif self.score >= 100 and self.game_speed < 20:
             self.game_speed += 0.02
 
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_up_time_up - pygame.time.get_ticks())/1000,2)
+            
+            if time_to_show >= 0:
+                font = pygame.font.Font(FONT_STYLE, 22)
+                text = font.render(f"Power Up Time:{time_to_show}s", True, (255,0,0))
+                
+                text_rect = text.get_rect()
+                text_rect.x = 500
+                text_rect.y = 50
+                
+                self.screen.blit(text, text_rect)
+                
+            else:
+                self.player.has_power_up = False
+                self.player.type = DEFAULT_TYPE
+
+
+
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-        self.draw_text("Score: " + str(self.score), 22, (1000, 50)) #exibe a pontuação do jogo na tela
-        self.draw_speed() #exibe a velocidade do jogo na tela
-        pygame.display.flip() #atualiza a tela em uma área especifica
-        pygame.display.update() #atualiza o retangulo da tela
+        self.power_up_manager.draw(self.screen)  # Adicione esta linha para desenhar os power-ups
+        self.draw_power_up_time()
+        self.draw_speed()
+        self.draw_text("Score: " + str(self.score), 22, (1000, 50))
+        pygame.display.flip()
+        pygame.display.update()
 
     def draw_speed(self):
         speed_km = int(round(self.game_speed * 10)) #a velocidade do jogo é multiplicada, pega o prox. num inteiro e converte para km/h
         font = pygame.font.Font(FONT_STYLE, 22) #utiliza a fonte e tamanho
         speed_text = font.render(f"Speed: {speed_km} km/h", True, (0, 0, 0)) #texto rederizado e com o km/h (cor preta)
+        self.draw_text("Score: " + str(self.score), 22, (1000, 50)) #exibe a pontuação do jogo na tela
         speed_rect = speed_text.get_rect() #obtem o retangulo do texto
         speed_rect.center = (1000, 80) #posiciona o texto na canto superior direito
         self.screen.blit(speed_text, speed_rect) #desenha o texto na tela
@@ -146,10 +183,7 @@ class Game:
         pygame.display.flip() #atualizei a tela com as alterações do desenho
 
         self.events() #trás os pressionamentos das teclas
-        
-
-    
-
+   
     def draw_background(self):
         image_width = BG.get_width()
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
@@ -187,6 +221,7 @@ class Game:
 
     def reset_game(self):
         self.obstacle_manager.reset_obstacles() #redefine os obstaculos do jogo
+        self.power_up_manager.reset_power_ups()
         self.player = Dinosaur() #cria um novo objeto
         self.score = 0 #o score vai para 0
         self.game_speed = 20 #a velocidade se mantém 20

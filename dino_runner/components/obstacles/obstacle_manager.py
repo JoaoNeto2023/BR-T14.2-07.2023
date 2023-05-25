@@ -4,7 +4,7 @@ import pygame
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.components.obstacles.Bird import Bird
-from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, GAME_OVER
+from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, GAME_OVER, DINO_DEAD
 
 
 class ObstacleManager:
@@ -27,7 +27,7 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)  # passa a velocidade do jogo e a lista de obstáculos como parâmetros, chamando cada obstáculo
             if game.player.dino_rect.colliderect(obstacle.rect):  # verifica a colisão entre o dinossauro e os obstáculos
                 if not game.player.has_power_up:  # verifica se o jogador não tem um power-up
-                    self.game_over(game.screen)  # chama o método game_over para exibir a mensagem "GAME OVER"
+                    self.game_over(game.screen, game.player)  # chama o método game_over para exibir a mensagem "GAME OVER"
                     game.playing = False  # para o jogo
                     game.death_count += 1  # valida a quantidade de mortes
                     self.reset_obstacles()  # redefine a lista de obstáculos
@@ -41,13 +41,18 @@ class ObstacleManager:
     def reset_obstacles(self):  # redefine a lista de obstáculos como vazia
         self.obstacles.clear()
 
-    def game_over(self, screen):
+    def game_over(self, screen, player):
         screen_rect = screen.get_rect()
         game_over_image = GAME_OVER
         game_over_rect = game_over_image.get_rect(center=screen_rect.center)
         screen.blit(game_over_image, game_over_rect)
+        player.is_dead = True  # Define o estado do dinossauro como morto
+        player.dino_image = DINO_DEAD  # Altera a imagem do dinossauro para a imagem do dinossauro morto
+        player.dino_rect = player.dino_image.get_rect()  # Atualiza o retângulo de colisão do dinossauro com a nova imagem
         pygame.display.update()
         pygame.time.delay(1500)
+        
+
 
 
 
