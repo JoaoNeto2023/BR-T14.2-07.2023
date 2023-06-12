@@ -24,7 +24,7 @@ class Game:
         self.color_counter = 0  # Contador de cores
         self.colors = COLOR
 
-        self.game_speed = 20
+        self.game_speed = 30
         self.cloud_speed = 1
 
         self.x_pos_bg = 0
@@ -71,7 +71,7 @@ class Game:
             self.update()
             self.draw()
 
-    #Método de controle de eventos
+
     def events(self):
         for event in pygame.event.get(): #irá responder as eventos
             if event.type == pygame.QUIT: 
